@@ -45,9 +45,9 @@ $sellerPrefs = [
 
 
 $buyers   = ['a','b','c','d','e'];
-$proposed = ['a'=>[],'b'=>[],'c'=>[],'d'=>[],'e'=>[]]; // buyer, any number
+$proposed = ['a'=>[],'b'=>[],'c'=>[],'d'=>[],'e'=>[]]; // buyer, any number of sellers
 $engaged  = ['z'=>null,'x'=>null,'y'=>null,'w'=>null,'v'=>null,'u'=>null,'t'=>null,'s'=>null,'q'=>null,'r'=>null]; // seller, one buyer
-$sold     = ['a'=>[],'b'=>[],'c'=>[],'d'=>[],'e'=>[]];
+$sold     = ['a'=>[],'b'=>[],'c'=>[],'d'=>[],'e'=>[]]; // final arrangements
 
 
 while ($buyer = array_shift($buyers)) {
@@ -61,24 +61,22 @@ while ($buyer = array_shift($buyers)) {
           $seller = $potential;
 
           if (empty($engaged[$seller]) && sizeof($sold[$buyer]) < $buyerNum[$buyer]) {
-            echo "engaging {$seller} to {$buyer}\n";
-
-            $sold[$buyer]     []= $seller;
+            $sold[$buyer] []= $seller;
             $engaged[$seller] = $buyer;
             $proposed[$buyer] []= $seller;
 
+            echo "engaging {$seller} to {$buyer}\n";
             break;
           }
           elseif (array_search($buyer, $sellerPrefs[$seller]) < array_search($engaged[$seller], $sellerPrefs[$seller])) {
             $jilt = $engaged[$seller];
-            echo "{$jilt} jilted by {$seller} for {$buyer}\n";
             $engaged[$seller] = $buyer;
             $proposed[$buyer] []= $seller;
-
             $sold[$buyer] []= $seller;
-            unset($sold[$jilt][ array_search($seller,$sold[$jilt]) ] );
-
+            unset( $sold[$jilt][ array_search($seller,$sold[$jilt]) ] );
             $buyers []= $jilt;
+
+            echo "{$jilt} jilted by {$seller} for {$buyer}\n";
             break;
           }
         }
