@@ -60,7 +60,7 @@ while ($buyer = array_shift($buyers)) {
         if (!in_array($potential, $proposed[$buyer]) ){
           $seller = $potential;
 
-          if (empty($engaged[$seller]) && sizeof($sold[$buyer]) < $buyerNum[$buyer]) {
+          if (empty($engaged[$seller])) {
             $sold[$buyer] []= $seller;
             $engaged[$seller] = $buyer;
             $proposed[$buyer] []= $seller;
